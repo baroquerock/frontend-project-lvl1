@@ -1,28 +1,40 @@
 #!/usr/bin/env node
 import readlineSync from 'readline-sync';
 import greetings from '../src/cli.js';
-import { isEven, getRandInt } from '../src/logic.js';
+import { getRandInt } from '../src/logic.js';
 
 const SUCCESS = 'success';
 const FAIL = 'fail';
 
 const name = greetings();
 
-console.log('Answer "yes" if the number is even, otherwise answer "no".');
+console.log('What number is missing in the progression?');
 
 const numOfRounds = 3;
 let currentRound = 1;
 let state = SUCCESS;
 
-const isValid = (ans) => ans === 'yes' || ans === 'no';
+const isInt = (value) => /^-?\d+$/.test(value);
 
 const runRound = () => {
   let result = FAIL;
-  const num = getRandInt();
-  const correctAns = isEven(num) ? 'yes' : 'no';
-  console.log(`Question: ${num}`);
+  // change magic nums
+  const first = getRandInt();
+  const len = getRandInt(5, 10);
+  const idx = getRandInt(1, len);
+  const step = getRandInt(1, 5);
+  const correctAns = String(first + (idx - 1) * step);
+  const progression = [];
+  for (let i = 0; i < len; i += 1) {
+    if (i === idx - 1) {
+      progression.push('..');
+    } else {
+      progression.push(String(first + i * step));
+    }
+  }
+  console.log(`Question: ${progression.join(' ')}`);
   const rawAns = readlineSync.question('Your answer: ').trim();
-  if (isValid(rawAns)) {
+  if (isInt(rawAns)) {
     result = (rawAns === correctAns) ? SUCCESS : FAIL;
   }
   if (result === SUCCESS) {

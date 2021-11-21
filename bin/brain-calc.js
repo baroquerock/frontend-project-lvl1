@@ -1,28 +1,40 @@
 #!/usr/bin/env node
 import readlineSync from 'readline-sync';
 import greetings from '../src/cli.js';
-import { isEven, getRandInt } from '../src/logic.js';
+import { getRandOp, getRandInt } from '../src/logic.js';
 
 const SUCCESS = 'success';
 const FAIL = 'fail';
 
 const name = greetings();
 
-console.log('Answer "yes" if the number is even, otherwise answer "no".');
+console.log('What is the result of the expression?');
 
 const numOfRounds = 3;
 let currentRound = 1;
 let state = SUCCESS;
 
-const isValid = (ans) => ans === 'yes' || ans === 'no';
+const calc = (n1, n2, op) => {
+  if (op === '+') {
+    return n1 + n2;
+  }
+  if (op === '-') {
+    return n1 - n2;
+  }
+  return n1 * n2;
+};
+
+const isInt = (value) => /^-?\d+$/.test(value);
 
 const runRound = () => {
   let result = FAIL;
-  const num = getRandInt();
-  const correctAns = isEven(num) ? 'yes' : 'no';
-  console.log(`Question: ${num}`);
+  const num1 = getRandInt();
+  const num2 = getRandInt();
+  const op = getRandOp();
+  const correctAns = String(calc(num1, num2, op));
+  console.log(`Question: ${num1} ${op} ${num2}`);
   const rawAns = readlineSync.question('Your answer: ').trim();
-  if (isValid(rawAns)) {
+  if (isInt(rawAns)) {
     result = (rawAns === correctAns) ? SUCCESS : FAIL;
   }
   if (result === SUCCESS) {

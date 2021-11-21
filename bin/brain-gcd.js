@@ -1,28 +1,29 @@
 #!/usr/bin/env node
 import readlineSync from 'readline-sync';
 import greetings from '../src/cli.js';
-import { isEven, getRandInt } from '../src/logic.js';
+import { gcd, getRandInt } from '../src/logic.js';
 
 const SUCCESS = 'success';
 const FAIL = 'fail';
 
 const name = greetings();
 
-console.log('Answer "yes" if the number is even, otherwise answer "no".');
+console.log('Find the greatest common divisor of given numbers.');
 
 const numOfRounds = 3;
 let currentRound = 1;
 let state = SUCCESS;
 
-const isValid = (ans) => ans === 'yes' || ans === 'no';
+const isInt = (value) => /^-?\d+$/.test(value);
 
 const runRound = () => {
   let result = FAIL;
-  const num = getRandInt();
-  const correctAns = isEven(num) ? 'yes' : 'no';
-  console.log(`Question: ${num}`);
+  const num1 = getRandInt();
+  const num2 = getRandInt();
+  const correctAns = String(gcd(num1, num2));
+  console.log(`Question: ${num1} ${num2}`);
   const rawAns = readlineSync.question('Your answer: ').trim();
-  if (isValid(rawAns)) {
+  if (isInt(rawAns)) {
     result = (rawAns === correctAns) ? SUCCESS : FAIL;
   }
   if (result === SUCCESS) {
