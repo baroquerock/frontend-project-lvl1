@@ -1,3 +1,5 @@
+import readlineSync from 'readline-sync';
+
 const isEven = (n) => n % 2 === 0;
 
 const getRandInt = (min = 1, max = 100) => Math.floor(Math.random() * (max - min + 1)) + min;
@@ -21,6 +23,14 @@ const isPrime = (num) => {
   return num > 1;
 };
 
+const greetings = (message) => {
+  console.log('Welcome to the Brain Games!');
+  const name = readlineSync.question('May I have your name? ');
+  console.log(`Hello, ${name}`);
+  console.log(message);
+  return name;
+};
+
 export {
-  isEven, getRandInt, getRandOp, gcd, isPrime,
+  isEven, getRandInt, getRandOp, gcd, isPrime, greetings,
 };
