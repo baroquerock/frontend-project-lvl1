@@ -1,0 +1,14 @@
+# https://eslint.org/docs/user-guide/configuring#specifying-environments
+env:
+  node: true
+  es2021: true
+
+extends:
+  - 'airbnb-base'
+
+parserOptions:
+  sourceType: module
+
+rules:
+  no-console: 0
+  import/extensions: 0 
